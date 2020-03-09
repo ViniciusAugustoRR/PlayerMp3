@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.uniplayer.Adapters.faixaAdapter;
 import com.example.uniplayer.R;
@@ -21,33 +22,38 @@ import java.util.ArrayList;
 
 public class FaixaFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<File> songsDirect = new ArrayList<>(TestForData.songsDirect);
-    private String nomeFaixas[] = TestForData.nomeFaixas;
+    RecyclerView mRecyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+
+    public static ArrayList<faixaModel> listaFaixas = TestForData.musicasFaixasM;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        // INFLATION OF THE FRAGMENT
         View rootView = inflater.inflate(R.layout.fragment_faixas, container, false);
 
 
-        ArrayList<faixaModel> listaFaixas = TestForData.musicasFaixasM;
-
-
-
+        // DECLARATION OF RECYCLE VIEW, CUSTOM ADAPTER AND LAYOUT MANAGER
         mRecyclerView = rootView.findViewById(R.id.recycle_faixas);
+
         mLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         mAdapter = new faixaAdapter(listaFaixas, getActivity().getBaseContext());
+        mAdapter.setHasStableIds(true);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(20);
+
 
         return rootView;
 
     }
+
 
     private ArrayList<File> lerFaixas(File root){
         ArrayList<File> array = new ArrayList<File>();
@@ -64,8 +70,6 @@ public class FaixaFragment extends Fragment {
         }
         return array;
     }
-
-
 
 
 }

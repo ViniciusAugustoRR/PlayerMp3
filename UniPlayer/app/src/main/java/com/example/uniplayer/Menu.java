@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Menu extends AppCompatActivity {
-    private FrameLayout containerFL;
+    FrameLayout containerFL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +29,16 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
 
-
-
         containerFL = findViewById(R.id.frag_container);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+        bottomNav.getMenu().getItem(1).setChecked(true);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_container, new FaixaFragment()).commit();
 
     }
-
-
-
 
 
 
@@ -78,20 +74,4 @@ public class Menu extends AppCompatActivity {
             };
 
 
-
-    private ArrayList<File> lerFaixas(File root){
-        ArrayList<File> array = new ArrayList<File>();
-        File files[] = root.listFiles();
-
-        for(File file: files){
-            if(file.isDirectory()){
-                array.addAll(lerFaixas(file));
-            }else{
-                if(file.getName().endsWith(".mp3")){
-                    array.add(file);
-                }
-            }
-        }
-        return array;
-    }
 }
